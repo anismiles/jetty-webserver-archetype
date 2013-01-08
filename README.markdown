@@ -1,4 +1,4 @@
-A maven archetype to help us quickly create and start on new API projects. Our tech stack is Google Guice, Resteasy and Embedded Jetty. 
+A maven archetype to help us quickly create and start on new API projects. Our tech stack is Google Guice, Resteasy and Embedded Jetty. Read more: http://anismiles.wordpress.com/2013/01/08/jetty-executable-webserver-archetype
 
 ## Install
 
