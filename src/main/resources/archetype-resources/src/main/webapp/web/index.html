@@ -1,0 +1,48 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<title>Sample Api Usage</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="css/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" media="all" href="css/app.css" />
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="span12 hover">
+			<h5>Hey there! type in your name, and submit.</h5>
+			<div class="well">
+				<div class="pull-left">
+					<input id="ip-name" type="text" name="firstname">
+				</div>
+				<div class="pull-left" style="margin-left: 10px;">
+					<input id="ip-submit" type="button" value="Submit">
+				</div>
+				<div id="display-greeting" class="pull-left"
+					style="margin-left: 10px; padding:5px; border-left: 1px solid darkgray;">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+${symbol_dollar}(document).ready(function() {
+	${symbol_dollar}("input[type=button]").click(function(){
+		${symbol_dollar}.get("/api/name",
+				{ name: ${symbol_dollar}("${symbol_pound}ip-name").val()},
+			  	function(data) {
+					${symbol_dollar}('${symbol_pound}display-greeting').html(data);
+				}
+		);
+	});
+});
+</script>
+
+</html>

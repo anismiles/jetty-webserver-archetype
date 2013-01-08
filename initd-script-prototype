@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# Executable war file
+WAR_FILE=/var/apps/<my-war-file>.war
+
+# Configuration files
+APP_NAME=<app-name>
+
+JETTY_CONFIG=/etc/${APP_NAME}-jetty.properties
+APP_CONFIG=/etc/${APP_NAME}-app.properties
+LOGBACK_CONFIG=/etc/${APP_NAME}-logback.properties
+
+# Process
+PIDFILE=/var/run/${APP_NAME}.pid
+
+# Java arguments
+JAVA_ARGS="-Djetty.configurationFile=${JETTY_CONFIG} -Dapp.configurationFile=${APP_CONFIG} -Dlogback.configurationFile=${LOGBACK_CONFIG}"
+
+# Command
+CMD=$1
+
+if [[ -z ${CMD} ]]; then
+  java ${JAVA_ARGS} -jar ${WAR_FILE} usage
+  exit 1
+fi
+
+if [[ ${CMD} == 'start' ]]; then
+    if [[ -f ${PIDFILE} ]]; then
+        echo "Already running"
+        exit 1
+    fi
+
+    if [[ -f ${WAR_FILE} ]]; then
+        echo "Starting jetty: ${WAR_FILE}"
+        java ${JAVA_ARGS} -jar ${WAR_FILE} start &
+        PID=$!
+        echo "$PID" > ${PIDFILE}
+        echo "Started ${APP_NAME} with pid: ${PID}"
+    fi
+
+elif [[ ${CMD} == 'stop' ]]; then
+    # Try gracefully first
+    java ${JAVA_ARGS} -jar ${WAR_FILE} stop
+    sleep 10
+    if [[ -f ${PIDFILE} ]]; then
+        PID=`cat ${PIDFILE}`
+        test -z $PID || kill $PID
+        rm ${PIDFILE}
+        sleep 1
+        echo "Forcibly Stopped ${WAR_FILE} with pid: ${PID}"
+    fi
+    
+else # Just let the other cmds through...
+    java ${JAVA_ARGS} -jar ${WAR_FILE} ${CMD}
+fi
+
+exit 0
