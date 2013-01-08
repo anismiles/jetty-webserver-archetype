@@ -10,7 +10,7 @@ mvn clean install
 ```
 Or you can simply download the jar and install that. 
 
-```java
+```maven
 mvn install:install-file \
 -Dfile=jetty-webserver-archetype-1.0.jar \
 -DgroupId=com.strumsoft \
@@ -24,7 +24,7 @@ mvn install:install-file \
 
 Let’s say you want to create a new project “hello-world” with group “com.hello.world”, you can run:
 
-```java
+```maven
 mvn archetype:generate \
 -DgroupId=com.hello.world \
 -DartifactId=hello-world \
@@ -36,19 +36,19 @@ mvn archetype:generate \
 
 That’s it. You are ready to roll. You have set up a basic working API app. Now, you can run it in dev mode 
 
-```java
+```maven
 mvn clean jetty:run
 ```
 
 Or in production mode
 
-```java
+```maven
 mvn clean package
 java –jar target/hello-world-1.0-SNAPSHOT-dist.war start & 
 ```
 
 To stop:
-```java
+```maven
 java –jar target/hello-world-1.0-SNAPSHOT-dist.war stop
 ```
 
